@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#7159d9">
+    <title>Alphabet Adventure</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <span class="cloud cloud-one">☁️</span><span class="cloud cloud-two">☁️</span>
+        <p class="eyebrow">LET'S LEARN TOGETHER!</p>
+        <h1 id="page-title">Alphabet Adventure <span aria-hidden="true">✨</span></h1>
+        <p class="intro">Tap a letter to see its picture and hear its sound.</p>
+        <button id="play-all" class="play-all" type="button">▶ Play the alphabet song</button>
+      </section>
+
+      <section class="alphabet-section" aria-labelledby="alphabet-title">
+        <div class="section-heading">
+          <h2 id="alphabet-title">Pick a letter</h2>
+          <p id="status" aria-live="polite">Choose a colorful card!</p>
+        </div>
+        <div class="card-grid">
+          {% for letter, word, emoji, description in letters %}
+          <article class="letter-card" style="--i: {{ loop.index0 }}" tabindex="0" data-letter="{{ letter }}" data-word="{{ word }}">
+            <div class="letter" aria-hidden="true">{{ letter }}</div>
+            <div class="picture" role="img" aria-label="{{ description }}">{{ emoji }}</div>
+            <h3>{{ word }}</h3>
+            <button class="sound-button" type="button" aria-label="Hear {{ letter }} for {{ word }}">🔊 Hear it</button>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+    <footer>Made with <span aria-label="love">💛</span> for little learners</footer>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
