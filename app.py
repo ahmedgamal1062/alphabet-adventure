@@ -1,7 +1,36 @@
+import os
+
 from flask import Flask, render_template
 
 
 app = Flask(__name__)
+app.config.update(
+    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY"),
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+)
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers.setdefault(
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; object-src 'none'; "
+        "frame-ancestors 'none'; form-action 'self'; script-src 'self'; "
+        "style-src 'self'; img-src 'self' data:; connect-src 'self'",
+    )
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Cross-Origin-Opener-Policy", "same-origin")
+    response.headers.setdefault("Cross-Origin-Resource-Policy", "same-origin")
+    response.headers.setdefault(
+        "Permissions-Policy",
+        "camera=(), geolocation=(), microphone=()",
+    )
+    return response
+
 
 LETTERS = [
     ("A", "Apple", "🍎", "a bright red apple"),
@@ -39,4 +68,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

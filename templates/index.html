@@ -14,7 +14,11 @@
         <p class="eyebrow">LET'S LEARN TOGETHER!</p>
         <h1 id="page-title">Alphabet Adventure <span aria-hidden="true">✨</span></h1>
         <p class="intro">Tap a letter to see its picture and hear its sound.</p>
-        <button id="play-all" class="play-all" type="button">▶ Play the alphabet song</button>
+        <div class="hero-actions">
+          <button id="play-all" class="play-all" type="button">▶ Play the alphabet song</button>
+          <button id="surprise-me" class="surprise-me" type="button">✨ Surprise me</button>
+          <button id="music-toggle" class="music-toggle" type="button" aria-pressed="true">♫ Accompaniment: On</button>
+        </div>
       </section>
 
       <section class="alphabet-section" aria-labelledby="alphabet-title">
@@ -22,9 +26,20 @@
           <h2 id="alphabet-title">Pick a letter</h2>
           <p id="status" aria-live="polite">Choose a colorful card!</p>
         </div>
+
+        <div class="progress-card" aria-live="polite">
+          <div class="progress-labels">
+            <span>My progress</span>
+            <strong id="progress-count">0 / 26</strong>
+          </div>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="Alphabet progress">
+            <div id="progress-fill"></div>
+          </div>
+        </div>
+
         <div class="card-grid">
           {% for letter, word, emoji, description in letters %}
-          <article class="letter-card" style="--i: {{ loop.index0 }}" tabindex="0" data-letter="{{ letter }}" data-word="{{ word }}">
+          <article class="letter-card" tabindex="0" data-letter="{{ letter }}" data-word="{{ word }}">
             <div class="letter" aria-hidden="true">{{ letter }}</div>
             <div class="picture" role="img" aria-label="{{ description }}">{{ emoji }}</div>
             <h3>{{ word }}</h3>
